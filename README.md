@@ -3,7 +3,7 @@ untethered re-jailbreak for iOS 9.3.5/6
 
 # Information:
 - Only 32bit devices are supported
-- Installing can be done by following [EverPwnage - ios.cfw.guide](https://ios.cfw.guide/installing-everpwnage) or [Carbon - ios.cfw.guide](https://ios.cfw.guide/installing-carbon) 
+- Installing can be done by following [EverPwnage - ios.cfw.guide](https://ios.cfw.guide/installing-everpwnage) or [Carbon - ios.cfw.guide](https://ios.cfw.guide/using-carbon) 
 - There is no warranty with this software, so use at your own risk.
 
 # Credits:
