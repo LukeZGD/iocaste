@@ -12,9 +12,5 @@ all: $(SRC)
 	$(CC) $(CFLAGS) $(LDFLAGS) -o iocaste $^
 	$(LDID) -S./resources/ents.xml iocaste
 
-install: clean all
-	sshpass -p alpine ssh -p 6414 root@127.0.0.1 "rm -rf /usr/bin/iocaste"
-	sshpass -p alpine scp -P 6414 ./iocaste root@127.0.0.1:/usr/bin/iocaste
-
 clean:
 	@rm -rf iocaste

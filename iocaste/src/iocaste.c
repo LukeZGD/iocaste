@@ -306,7 +306,6 @@ int iocaste_create_backup(void) {
 }
 
 int iocaste_restore_backup(void) {
-    if (access("/var/root/iocaste/backup", F_OK) != 0) return 0;
     if (access("/var/root/iocaste/backup/racoon.conf", F_OK) == 0) {
         remove_at_path("/etc/racoon/racoon.conf");
         copy_file("/var/root/iocaste/backup/racoon.conf", "/etc/racoon/racoon.conf");

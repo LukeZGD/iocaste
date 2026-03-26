@@ -61,6 +61,8 @@ done:
 
 int install(void) {
     if (access("/var/root/iocaste", F_OK) == 0) return update();
+    fprintf(stdout, "[*] installing untether, this will take a few minutes...\n");
+    
     if (iocaste_init() != 0) {
         fprintf(stderr, "[-] failed to initialize, untether will NOT be installed\n");
         return -1;

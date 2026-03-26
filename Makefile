@@ -8,11 +8,6 @@ clean:
 	@rm -rf ./iocaste.tar
 	@rm -rf ./staging
 
-install: clean all
-	sshpass -p alpine ssh -p 6414 root@127.0.0.1 "rm -rf /usr/bin/iocaste && rm -rf /usr/lib/iocaste.dylib"
-	sshpass -p alpine scp -P 6414 ./iocaste/iocaste root@127.0.0.1:/usr/bin/iocaste
-	sshpass -p alpine scp -P 6414 ./untether/iocaste.dylib root@127.0.0.1:/usr/lib/iocaste.dylib
-
 deb:
 	@rm -rf ./staging
 	@mkdir -p ./staging/DEBIAN
@@ -24,7 +19,9 @@ deb:
 
 	@cp -a ./resources/control ./staging/DEBIAN/control
 	@cp -a ./resources/postinst ./staging/DEBIAN/postinst
+	@cp -a ./resources/prerm ./staging/DEBIAN/prerm
 
+	@chmod 0755 ./staging/DEBIAN/prerm
 	@chmod 0755 ./staging/DEBIAN/postinst
 	@chmod 6755 ./staging/usr/bin/iocaste
 	@chmod 0755 ./staging/usr/lib/iocaste.dylib

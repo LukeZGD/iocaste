@@ -46,14 +46,8 @@ __attribute__((constructor)) static void ctor(int argc, char **argv, char **env,
         uint8_t *mpo_mapped = map_data(patches->sbops & ~0xfff, 0x4000, VM_PROT_READ|VM_PROT_WRITE);
         uint32_t mpo_offset = (patches->sbops & 0xfff);
 
-        patch_mpo(mpo_priv_check);
-        patch_mpo(mpo_priv_grant);
-        patch_mpo(mpo_proc_check_map_anon);
-        patch_mpo(mpo_vnode_check_fsgetpath);
         patch_mpo(mpo_iokit_check_open);
-        patch_mpo(mpo_proc_check_ledger);
         patch_mpo(mpo_vnode_notify_rename);
-        patch_mpo(mpo_vnode_check_setacl);
         patch_mpo(mpo_mount_check_label_update);
         patch_mpo(mpo_mount_check_mount);
         patch_mpo(mpo_mount_check_remount);
@@ -89,16 +83,15 @@ __attribute__((constructor)) static void ctor(int argc, char **argv, char **env,
         patch_mpo(mpo_proc_check_fork);
         patch_mpo(mpo_iokit_check_get_property);
         patch_mpo(mpo_cred_label_update_execve);
-        patch_mpo(mpo_proc_check_expose_task);
+        //patch_mpo(mpo_proc_check_expose_task);
         patch_mpo(mpo_proc_check_get_task_name);
         patch_mpo(mpo_proc_check_get_task);
-        patch_mpo(mpo_proc_check_inherit_ipc_ports);
-        patch_mpo(mpo_proc_check_set_host_special_port);
-        patch_mpo(mpo_proc_check_set_host_exception_port);
-        patch_mpo(mpo_proc_check_getauid);
-        patch_mpo(mpo_proc_check_setauid);
-        patch_mpo(mpo_proc_check_signal);
-        patch_mpo(mpo_vnode_check_write);
+        //patch_mpo(mpo_proc_check_inherit_ipc_ports);
+        //patch_mpo(mpo_proc_check_set_host_special_port);
+        //patch_mpo(mpo_proc_check_set_host_exception_port);
+        //patch_mpo(mpo_proc_check_getauid);
+        //patch_mpo(mpo_proc_check_setauid);
+        //patch_mpo(mpo_proc_check_signal);
 
         unmap_data(mpo_mapped, 0x4000);
         usleep(100000);
