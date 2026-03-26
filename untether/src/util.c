@@ -51,16 +51,6 @@ int init_offsets(void) {
     kinfo->mem_size &= 0xfff00000;
 
     switch (kinfo->version[0]) {
-        case 10:
-            kinfo->offsets.task.ref_count = 0x8;
-            kinfo->offsets.task.bsd_info = 0x22c;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x48;
-            kinfo->offsets.ipc_port.size = 0x74;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
         case 9:
             kinfo->offsets.task.ref_count = 0xc;
             kinfo->offsets.task.bsd_info = 0x200;
@@ -70,72 +60,6 @@ int init_offsets(void) {
             kinfo->kernel_static_base = 0x80001000;
             kinfo->kernel_phys_base = 0x80001000;
             kinfo->mem_base = 0x80000000;
-            break;
-        case 8:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1f0;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x44;
-            kinfo->offsets.ipc_port.size = 0x70;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
-        case 7:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1e8;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x44;
-            kinfo->offsets.ipc_port.size = 0x70;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
-        case 6:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1e0;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x44;
-            kinfo->offsets.ipc_port.size = 0x70;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
-        case 5:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1ec;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x40;
-            kinfo->offsets.ipc_port.size = 0x74;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
-        case 4:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1cc;
-            kinfo->offsets.ipc_port.ip_references = 0x4;
-            kinfo->offsets.ipc_port.ip_kobject = 0x40;
-            kinfo->offsets.ipc_port.size = 0x6c;
-            kinfo->kernel_static_base = 0x80001000;
-            kinfo->kernel_phys_base = 0x80001000;
-            kinfo->mem_base = 0x80000000;
-            break;
-        case 3:
-            kinfo->offsets.task.ref_count = 0xc;
-            kinfo->offsets.task.bsd_info = 0x1c4;
-            kinfo->offsets.ipc_port.ip_references = 0x0;
-            kinfo->offsets.ipc_port.ip_kobject = 0x40;
-            kinfo->offsets.ipc_port.size = 0x90;
-            if (kinfo->version[1] == 1) {
-                kinfo->kernel_static_base = 0xc0008000;
-                kinfo->kernel_phys_base = 0x40008000;
-                kinfo->mem_base = 0x40000000;
-            } else {
-                kinfo->kernel_static_base = 0x80001000;
-                kinfo->kernel_phys_base = 0x80001000;
-                kinfo->mem_base = 0x80000000;
-            }
             break;
         default:
             break;

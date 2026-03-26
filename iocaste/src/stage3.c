@@ -25,8 +25,6 @@ int gen_stage3(void) {
             self_task_addr: 0x0,\n \
             self_proc_addr: 0x0,\n \
             host_port_addr: 0x0,\n \
-            kernel_base: 0x0,\n \
-            kernel_slide: 0x0,\n \
             syscall_version: 0x%x,\n \
             syscall_gadget1: 0x%x,\n \
             syscall_gadget2: 0x%x,\n \

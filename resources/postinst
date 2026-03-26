@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 function exit_script() {
 	if ! [ -z "$CYDIA" ]; then
@@ -11,6 +12,10 @@ EOT
     fi
     exit 0
 }
+
+# coolbooter untether support
+mkdir /taig
+touch /taig/taig
 
 /usr/bin/iocaste install
 exit_script reboot

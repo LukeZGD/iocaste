@@ -83,15 +83,8 @@ __attribute__((constructor)) static void ctor(int argc, char **argv, char **env,
         patch_mpo(mpo_proc_check_fork);
         patch_mpo(mpo_iokit_check_get_property);
         patch_mpo(mpo_cred_label_update_execve);
-        //patch_mpo(mpo_proc_check_expose_task);
         patch_mpo(mpo_proc_check_get_task_name);
         patch_mpo(mpo_proc_check_get_task);
-        //patch_mpo(mpo_proc_check_inherit_ipc_ports);
-        //patch_mpo(mpo_proc_check_set_host_special_port);
-        //patch_mpo(mpo_proc_check_set_host_exception_port);
-        //patch_mpo(mpo_proc_check_getauid);
-        //patch_mpo(mpo_proc_check_setauid);
-        //patch_mpo(mpo_proc_check_signal);
 
         unmap_data(mpo_mapped, 0x4000);
         usleep(100000);

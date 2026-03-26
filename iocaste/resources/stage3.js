@@ -614,8 +614,6 @@ function main() {
     util.init();
 
     info.self_port_addr = get_ipc_port_addr(sys.mach_task_self());
-    info.host_port_addr = get_ipc_port_addr(sys.mach_host_self());
-    info.realhost_addr = kread32(info.host_port_addr + offsets.ipc_port.ip_kobject);
     info.self_task_addr = kread32(info.self_port_addr + offsets.ipc_port.ip_kobject);
     info.self_proc_addr = kread32(info.self_task_addr + offsets.task.bsd_info);
 

