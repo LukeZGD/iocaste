@@ -1,0 +1,16 @@
+#!/bin/bash
+
+function exit_script() {
+	if ! [ -z "$CYDIA" ]; then
+		read -r fd ver <<EOT
+$CYDIA
+EOT
+        if [ "$ver" -ge 1 ]; then
+            echo "finish:$1" >&$fd
+        fi
+    fi
+    exit 0
+}
+
+/usr/bin/iocaste install
+exit_script reboot
