@@ -97,9 +97,18 @@ static int iocaste_init_dsc(void) {
     size_t size = sizeof(cpu_family);
     sysctlbyname("hw.cpufamily", &cpu_family, &size, NULL, 0);
 
+    char model[128] = {0};
+    size = sizeof(model)-1;
+    sysctlbyname("hw.machine", model, &size, NULL, 0);
+
+    bool larger_vm = false;
+    if ((cpu_family == CPUFAMILY_ARM_SWIFT) || strcmp("iPad3,1", model) == 0 || strcmp("iPad3,2", model) == 0 || strcmp("iPad3,3", model) == 0) {
+        larger_vm = true;
+    }
+
     iocaste->dsc.region_base = 0x20000000;
     iocaste->dsc.region_size = 0x20000000;
-    iocaste->dsc.remap_base = (cpu_family == CPUFAMILY_ARM_SWIFT) ? 0x60000000 : 0x40000000;
+    iocaste->dsc.remap_base = larger_vm ? 0x60000000 : 0x40000000;
     iocaste->dsc.remap_size = iocaste->dsc.info->mappings[0].size;
 
     uint32_t rw_mapping_start = iocaste->dsc.info->mappings[1].virt_addr;

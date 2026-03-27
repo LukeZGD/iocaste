@@ -1,5 +1,4 @@
 #!/bin/bash
-set -euo pipefail
 
 function exit_script() {
 	if ! [ -z "$CYDIA" ]; then
@@ -17,5 +16,7 @@ EOT
 mkdir /taig
 touch /taig/taig
 
+set -o pipefail
 /usr/bin/iocaste install
+set +o pipefail
 exit_script reboot
