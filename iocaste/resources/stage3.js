@@ -559,7 +559,7 @@ function kread32(addr) {
 }
 
 function bypass_codesigning() {
-    var libdispatch_fd = sys.open("/usr/lib/system/introspection/libdispatch.dylib", O_RDONLY);
+    var libdispatch_fd = sys.open("/mnt1/usr/lib/system/introspection/libdispatch.dylib", O_RDONLY);
     var libdispatch_data = sys.mmap(0, info.libdispatch_file_size, PROT_READ|PROT_WRITE, MAP_FILE | MAP_PRIVATE, libdispatch_fd, 0);
 
     var signature = util.create_data_buf(0x2c);
@@ -567,7 +567,7 @@ function bypass_codesigning() {
     signature.write(0x8, libdispatch_data + info.libdispatch_csblob_offset, 0x4);
     signature.write(0xc, info.libdispatch_csblob_size, 0x4);
 
-    var untether_fd = sys.open("/usr/lib/iocaste.dylib", O_RDONLY);
+    var untether_fd = sys.open("/mnt1/usr/lib/iocaste.dylib", O_RDONLY);
     sys.fcntl(untether_fd, F_ADDSIGS, signature.addr);
 
     var pktinfo = util.create_data_buf(20);
@@ -620,7 +620,7 @@ function main() {
     bypass_codesigning();
     bypass_sandbox();
 
-    util.dlopen("/usr/lib/iocaste.dylib", 0x2);
+    util.dlopen("/mnt1/usr/lib/iocaste.dylib", 0x2);
     util.write32(0xff4141ff, 0x41414141);
     sys.exit(21);
 }

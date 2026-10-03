@@ -6,7 +6,7 @@ iocaste_ctx_t *iocaste = NULL;
 
 static int iocaste_init_offsets(void) {
     uint32_t libdispatch_size = 0;
-    uint8_t *libdispatch_data = load_file("/usr/lib/system/introspection/libdispatch.dylib", &libdispatch_size);
+    uint8_t *libdispatch_data = load_file("/mnt1/usr/lib/system/introspection/libdispatch.dylib", &libdispatch_size);
     if (libdispatch_data == NULL) {
         fprintf(stderr, "[-] failed to load libdispatch.dylib\n");
         return -1;
@@ -222,45 +222,45 @@ err:
 }
 
 int iocaste_create_backup(void) {
-    if (access("/var/root/iocaste/backup", F_OK) == 0) return 0;
-    mkdir("/var/root/iocaste/backup", 0777);
-    chown("/var/root/iocaste/backup", 0, 0);
-    if (access("/var/root/iocaste/backup", F_OK) != 0) return -1;
+    if (access("/mnt1/private/var/root/iocaste/backup", F_OK) == 0) return 0;
+    mkdir("/mnt1/private/var/root/iocaste/backup", 0777);
+    chown("/mnt1/private/var/root/iocaste/backup", 0, 0);
+    if (access("/mnt1/private/var/root/iocaste/backup", F_OK) != 0) return -1;
 
-    copy_file("/etc/racoon/racoon.conf", "/var/root/iocaste/backup/racoon.conf");
-    copy_file("/etc/dhcpd.conf", "/var/root/iocaste/backup/dhcpd.conf");
-    copy_file("/usr/libexec/wifiFirmwareLoader", "/var/root/iocaste/backup/wifiFirmwareLoader");
-    copy_file("/System/Library/LaunchDaemons/com.apple.SpringBoard.plist", "/var/root/iocaste/backup/com.apple.SpringBoard.plist");
-    sync_volume("/private/var");
+    copy_file("/mnt1/private/etc/racoon/racoon.conf", "/mnt1/private/var/root/iocaste/backup/racoon.conf");
+    copy_file("/mnt1/private/etc/dhcpd.conf", "/mnt1/private/var/root/iocaste/backup/dhcpd.conf");
+    copy_file("/mnt1/usr/libexec/wifiFirmwareLoader", "/mnt1/private/var/root/iocaste/backup/wifiFirmwareLoader");
+    copy_file("/mnt1/System/Library/LaunchDaemons/com.apple.SpringBoard.plist", "/mnt1/private/var/root/iocaste/backup/com.apple.SpringBoard.plist");
+    sync_volume("/mnt1/private/var");
     return 0;
 }
 
 int iocaste_restore_backup(void) {
-    if (access("/var/root/iocaste/backup/racoon.conf", F_OK) == 0) {
-        remove_at_path("/etc/racoon/racoon.conf");
-        copy_file("/var/root/iocaste/backup/racoon.conf", "/etc/racoon/racoon.conf");
+    if (access("/mnt1/private/var/root/iocaste/backup/racoon.conf", F_OK) == 0) {
+        remove_at_path("/mnt1/private/etc/racoon/racoon.conf");
+        copy_file("/mnt1/private/var/root/iocaste/backup/racoon.conf", "/mnt1/private/etc/racoon/racoon.conf");
     }
 
-    if (access("/var/root/iocaste/backup/dhcpd.conf", F_OK) == 0) {
-        remove_at_path("/etc/dhcpd.conf");
-        copy_file("/var/root/iocaste/backup/dhcpd.conf", "/etc/dhcpd.conf");
+    if (access("/mnt1/private/var/root/iocaste/backup/dhcpd.conf", F_OK) == 0) {
+        remove_at_path("/mnt1/private/etc/dhcpd.conf");
+        copy_file("/mnt1/private/var/root/iocaste/backup/dhcpd.conf", "/mnt1/private/etc/dhcpd.conf");
     }
 
-    if (access("/var/root/iocaste/backup/wifiFirmwareLoader", F_OK) == 0) {
-        remove_at_path("/usr/libexec/wifiFirmwareLoader");
-        remove_at_path("/usr/libexec/wifiFirmwareLoader_orig");
-        copy_file("/var/root/iocaste/backup/wifiFirmwareLoader", "/usr/libexec/wifiFirmwareLoader");
-    } else if (access("/usr/libexec/wifiFirmwareLoader_orig", F_OK) == 0) {
-        remove_at_path("/usr/libexec/wifiFirmwareLoader");
-        move_file("/usr/libexec/wifiFirmwareLoader_orig", "/usr/libexec/wifiFirmwareLoader", true);
+    if (access("/mnt1/private/var/root/iocaste/backup/wifiFirmwareLoader", F_OK) == 0) {
+        remove_at_path("/mnt1/usr/libexec/wifiFirmwareLoader");
+        remove_at_path("/mnt1/usr/libexec/wifiFirmwareLoader_orig");
+        copy_file("/mnt1/private/var/root/iocaste/backup/wifiFirmwareLoader", "/mnt1/usr/libexec/wifiFirmwareLoader");
+    } else if (access("/mnt1/usr/libexec/wifiFirmwareLoader_orig", F_OK) == 0) {
+        remove_at_path("/mnt1/usr/libexec/wifiFirmwareLoader");
+        move_file("/mnt1/usr/libexec/wifiFirmwareLoader_orig", "/mnt1/usr/libexec/wifiFirmwareLoader", true);
     }
 
-    if (access("/var/root/iocaste/backup/com.apple.SpringBoard.plist", F_OK) == 0) {
-        remove_at_path("/System/Library/LaunchDaemons/com.apple.SpringBoard.plist");
-        remove_at_path("/Library/LaunchDaemons/com.apple.SpringBoard.plist");
-        copy_file("/var/root/iocaste/backup/com.apple.SpringBoard.plist", "/System/Library/LaunchDaemons/com.apple.SpringBoard.plist");
+    if (access("/mnt1/private/var/root/iocaste/backup/com.apple.SpringBoard.plist", F_OK) == 0) {
+        remove_at_path("/mnt1/System/Library/LaunchDaemons/com.apple.SpringBoard.plist");
+        remove_at_path("/mnt1/Library/LaunchDaemons/com.apple.SpringBoard.plist");
+        copy_file("/mnt1/private/var/root/iocaste/backup/com.apple.SpringBoard.plist", "/mnt1/System/Library/LaunchDaemons/com.apple.SpringBoard.plist");
     }
 
-    sync_volume("/");
+    sync_volume("/mnt1/");
     return 0;
 }

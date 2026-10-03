@@ -9,9 +9,9 @@ int gen_stage3(void) {
         return -1;
     }
 
-    int fd = open("/var/root/iocaste/stage3.bin", O_RDWR|O_CREAT, 0777);
+    int fd = open("/mnt1/private/var/root/iocaste/stage3.bin", O_RDWR|O_CREAT, 0777);
     if (fd < 0) {
-        fprintf(stderr, "[-] failed to create /var/root/iocaste/stage3.bin\n");
+        fprintf(stderr, "[-] failed to create /mnt1/private/var/root/iocaste/stage3.bin\n");
         return -1;
     }
     
